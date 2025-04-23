@@ -2,31 +2,10 @@ import os
 import platform
 import ctypes
 from ctypes import wintypes
+from eyefiHeader import EYEFI_BUF_SIZE, PATHNAME_MAX, debug_printf
 
 # Constants
-EYEFI_BUF_SIZE = 1024 * 2
-PATHNAME_MAX = 4096
-LINEBUFSZ = 1024
 EYEFI_VOLUME_ID = "AA52-6922"
-
-# Debug level
-eyefi_debug_level = 1
-
-
-def debug_printf(level, message, *args):
-    """
-    Print debug messages if the specified debug level is met.
-
-    Args:
-      level (int): The minimum debug level required to print the message.
-      message (str): The message format string.
-      *args: Arguments for the format string.
-
-    Returns:
-      None
-    """
-    if eyefi_debug_level >= level:
-        print(message % args)
 
 
 def atoo(o):
