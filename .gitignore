@@ -1,3 +1,5 @@
 /*.o
 /eyefi-config
 +*~
+
+env/
