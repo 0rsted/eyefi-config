@@ -168,33 +168,47 @@ def read_seq_from(file):
     return int.from_bytes(eyefi_buf[:4], "little")
 
 
-def read_from(file):
-    """
-    Read data from a file.
+def read_from(file_path):
+  """
+  Read data from a file and populate the buffer.
 
-    Args:
-      file (str): The file enumeration name.
+  Args:
+    file_path (str): The path to the file.
 
-    Returns:
-      None
-    """
-    pass
+  Returns:
+    bytes: The data read from the file.
+  """
+  try:
+    with open(file_path, "rb") as f:
+      mmapped_file = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+      data = mmapped_file[:EYEFI_BUF_SIZE]
+      mmapped_file.close()
+      return data
+  except FileNotFoundError:
+    print(f"File not found: {file_path}")
+    return None
+  except Exception as e:
+    print(f"Error reading from file {file_path}: {e}")
+    return None
 
+def write_to(file_path, data):
+  """
+  Write data to a file.
 
-def write_to(file, stuff, length):
-    """
-    Write data to a file.
+  Args:
+    file_path (str): The path to the file.
+    data (bytes): The data to write.
 
-    Args:
-      file (str): The file enumeration name.
-      stuff (bytes): The data to write.
-      length (int): The length of the data.
-
-    Returns:
-      None
-    """
-    pass
-
+  Returns:
+    None
+  """
+  try:
+    with open(file_path, "wb") as f:
+      f.write(data)
+      f.flush()
+      os.fsync(f.fileno())
+  except Exception as e:
+    print(f"Error writing to file {file_path}: {e}")
 
 def majflts():
     """
